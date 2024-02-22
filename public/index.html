@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="./node_modules/xterm/css/xterm.css" />
+    <script type="text/javascript" src="./node_modules/socket.io-client/dist/socket.io.js"></script>
+
+    <script type="text/javascript" src="./node_modules/xterm/lib/xterm.js"></script>
+    <script type="text/javascript" src="./node_modules/xterm-addon-fit/lib/xterm-addon-fit.js"></script>
+
+    <script type="text/javascript" src="./attach.js"></script>
+    <script type="text/javascript" src="./node_modules/eruda/eruda.js"></script>
+    <script>
+      eruda.init();
+    </script>
+
+    <style>
+      body, html {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        height: 100%;
+        width: 100%;
+        background: black;
+      }
+      #term {
+        height: 100%;
+        width: 100%;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="term" style="height:100%;width:100%;"></div>
+  </body>
+  <script>
+    var term = new Terminal();
+    term.open(document.getElementById("term"));
+    const fitAddon = new FitAddon.FitAddon();
+    term.loadAddon(fitAddon);
+    fitAddon.fit();
+
+    var socket = io.connect();
+    socket.on("connect", function () {
+      term.attach(socket);
+    });
+</script>
+
+</html>
